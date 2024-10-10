@@ -2,7 +2,43 @@
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
+
 // Your JavaScript code goes here!
+const modal = document.getElementById('modal');
+modal.classList.add('hidden');
+
+// Select all heart elements
+const hearts = document.querySelectorAll('.like-glyph');
+
+// Iterate over each heart and add a click event listener
+hearts.forEach(heart => {
+  heart.addEventListener('click', () => {
+    mimicServerCall()
+      .then(() => {
+        if (heart.innerText === EMPTY_HEART) {
+          // Change the heart to full heart and add .activated-heart class
+          heart.innerText = FULL_HEART;
+          heart.classList.add('activated-heart');
+        } else {
+          // Change back to empty heart and remove .activated-heart class
+          heart.innerText = EMPTY_HEART;
+          heart.classList.remove('activated-heart');
+        }
+      })
+      .catch((error) => {
+        // Show the error modal by removing the .hidden class
+        modal.classList.remove('hidden');
+        document.getElementById('modal-message').innerText = error;
+
+        // Hide the modal after 3 seconds
+        setTimeout(() => {
+          modal.classList.add('hidden');
+        }, 3000);
+      });
+  });
+});
+
+
 
 
 
